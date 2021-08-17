@@ -15,16 +15,13 @@ def call(PipelineParam config) {
         agent any
         options {
             disableConcurrentBuilds()
+
 //            保存构建历史
             buildDiscarder(logRotator(daysToKeepStr: '5'))
         }
         environment {
             SERVICE_NAME = "${config.getServiceName()}"
-            withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
-                sh 'aws iam get-user'
-//                env.IMAGE_EXIST = "${servicePipelineHelper.isImageExisted()}"
-                sh env
-            }
+            credentials("aws-iam-fly-devops");
         }
         parameters {
             booleanParam(name: 'CHECK_IMAGE_AND_BUILD', defaultValue: true, description: 'If enabled, jenkins will build only if image not exists. If disabled, jenkins will build everytime.')
@@ -36,6 +33,7 @@ def call(PipelineParam config) {
                 steps {
                     script {
                         echo config.toString()
+                        echo "env"
                     }
                     withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
                         sh 'aws iam get-user'
