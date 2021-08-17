@@ -4,6 +4,7 @@ class ServicePipelineHelper implements Serializable {
     def script
     def GitHelper gitHelper
     def String serviceName
+
     ServicePipelineHelper(script, serviceName) {
         this.script = script
         this.gitHelper = new GitHelper(script)
@@ -11,8 +12,8 @@ class ServicePipelineHelper implements Serializable {
     }
 
     boolean isImageExisted(String branchName) {
-        if(Objects.isNull(branchName)||"".equals(branchName)){
-            branchName="master"
+        if (Objects.isNull(branchName) || "".equals(branchName)) {
+            branchName = "master"
         }
         def imageTag = gitHelper.getImageTag(branchName)
         def exist = false;
@@ -39,7 +40,7 @@ class ServicePipelineHelper implements Serializable {
     def publishToEcr() {
         script.withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
             script.echo 'Push Image to ECR...'
-            script.sh "./gradlew jib -Djib.to.tags=${gitHelper.getImageTag(branchName)}"
+            script.sh "./gradlew jib -Djib.to.tags=${gitHelper.getImageTag(gitHelper.getCurrentBranchName())}"
         }
     }
 
