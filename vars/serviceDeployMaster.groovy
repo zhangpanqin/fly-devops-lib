@@ -4,10 +4,9 @@ import com.mflyyou.GitHelper
 import com.mflyyou.PipelineParam
 import com.mflyyou.ServicePipelineHelper
 
-def call(PipelineParam config) {
+def call(Map config) {
     def servicePipelineHelper = new ServicePipelineHelper(this)
     def gitHelper = new GitHelper(this,config)
-    properties([])
     pipeline {
         agent none
 //        options {
