@@ -1,23 +1,26 @@
+import com.mflyyou.GitHelper
+import com.mflyyou.PipelineParam
+import com.mflyyou.ServicePipelineHelper
 
-def call(Map config) {
-//    def servicePipelineHelper = new ServicePipelineHelper(this)
-//    def gitHelper = new GitHelper(this)
+def call(PipelineParam config) {
+    def servicePipelineHelper = new ServicePipelineHelper(this)
+    def gitHelper = new GitHelper(this)
     pipeline {
         agent none
-//        options {
-//            disableConcurrentBuilds()
-////            保存构建历史
-//            buildDiscarder(logRotator(daysToKeepStr: '5'))
-//        }
-//        environment {
-//            SERVICE_NAME = "${config.getServiceName()}"
-////            IMAGE_EXIST = "${servicePipelineHelper.isImageExisted()}"
-//        }
-//        parameters {
-//            booleanParam(name: 'CHECK_IMAGE_AND_BUILD', defaultValue: true, description: 'If enabled, jenkins will build only if image not exists. If disabled, jenkins will build everytime.')
-//            booleanParam(name: 'DEPLOY_TO_QA', defaultValue: false, description: 'Deploy to QA.')
-//            booleanParam(name: 'DEPLOY_TO_UAT', defaultValue: false, description: 'Deploy to UAT.')
-//        }
+        options {
+            disableConcurrentBuilds()
+//            保存构建历史
+            buildDiscarder(logRotator(daysToKeepStr: '5'))
+        }
+        environment {
+            SERVICE_NAME = "${config.getServiceName()}"
+            IMAGE_EXIST = "${servicePipelineHelper.isImageExisted()}"
+        }
+        parameters {
+            booleanParam(name: 'CHECK_IMAGE_AND_BUILD', defaultValue: true, description: 'If enabled, jenkins will build only if image not exists. If disabled, jenkins will build everytime.')
+            booleanParam(name: 'DEPLOY_TO_QA', defaultValue: false, description: 'Deploy to QA.')
+            booleanParam(name: 'DEPLOY_TO_UAT', defaultValue: false, description: 'Deploy to UAT.')
+        }
         stages {
             stage('echo 打印参数') {
                 steps {
@@ -83,11 +86,11 @@ def call(Map config) {
                     echo "failure"
                 }
             }
-//            always {
-//                script {
-//                    echo gitHelper.loadResourceFromLibraryToString("test.json")
-//                }
-//            }
+            always {
+                script {
+                    echo gitHelper.loadResourceFromLibraryToString("test.json")
+                }
+            }
         }
     }
 }
