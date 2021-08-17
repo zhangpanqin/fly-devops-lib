@@ -2,9 +2,10 @@ package com.mflyyou
 
 class ServicePipelineHelper implements Serializable{
     def script
-
+    def GitHelper gitHelper
     ServicePipelineHelper(script) {
         this.script = script
+        this.gitHelper=new GitHelper(script)
     }
 
     def isImageExisted() {
