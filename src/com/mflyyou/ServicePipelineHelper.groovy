@@ -40,7 +40,8 @@ class ServicePipelineHelper implements Serializable {
     def publishToEcr() {
         script.withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
             script.echo 'Push Image to ECR...'
-            script.sh "./gradlew jib -Djib.to.tags=${gitHelper.getImageTag(gitHelper.getCurrentBranchName())}"
+//            script.sh "./gradlew jib -Djib.to.tags=${gitHelper.getImageTag(gitHelper.getCurrentBranchName())}"
+            script.sh "./gradlew jib"
         }
     }
 
