@@ -3,7 +3,7 @@ package com.mflyyou
 class ServicePipelineHelper implements Serializable {
     def script
     def GitHelper gitHelper
-
+    def String serviceName
     ServicePipelineHelper(script, serviceName) {
         this.script = script
         this.gitHelper = new GitHelper(script)
