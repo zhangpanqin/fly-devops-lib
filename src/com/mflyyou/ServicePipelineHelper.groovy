@@ -1,31 +1,31 @@
 package com.mflyyou
 
-class ServicePipelineHelper implements Serializable{
+class ServicePipelineHelper implements Serializable {
     def script
     def GitHelper gitHelper
     def String branchName
-    def String serviceName
-    ServicePipelineHelper(script,serviceName,branchName) {
+
+    ServicePipelineHelper(script, serviceName) {
         this.script = script
-        this.gitHelper=new GitHelper(script)
-        this.branchName=branchName
-        this.serviceName="fly-devops"
+        this.gitHelper = new GitHelper(script)
+        this.branchName = gitHelper.getCurrentBranchName()
+        this.serviceName = "fly-devops"
     }
 
     boolean isImageExisted() {
         script.echo "Checking Image..."
         script.echo "Checking Image... ${branchName}"
         def imageTag = gitHelper.getImageTag(branchName)
-        def exist=false;
+        def exist = false;
         script.withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
             try {
                 def status = script.sh(returnStatus: true, script: "aws ecr describe-images --region us-east-2 --repository-name=${serviceName} --image-ids=imageTag=${imageTag}")
                 if (status == 0) {
                     script.echo "Image exists"
-                    exist= true
+                    exist = true
                 }
                 script.echo "Image not exists"
-            }catch(Exception e){
+            } catch (Exception e) {
                 script.echo e.getMessage()
             }
         }
