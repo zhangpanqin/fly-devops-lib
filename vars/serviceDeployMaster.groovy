@@ -36,7 +36,7 @@ def call(PipelineParam config) {
                         echo config.toString()
                         echo "${env.AWS_ACCESS_IAM_AWSAccessKeyId}"
                     }
-                    withCredentials([usernamePassword(credentialsId: 'aws-iam-fly-devops', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                    withCredentials([aws(credentialsId: 'aws-iam-fly-devops', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                         sh 'echo $AWS_ACCESS_KEY_ID'
                         sh 'echo $AWS_SECRET_ACCESS_KEY'
                     }
