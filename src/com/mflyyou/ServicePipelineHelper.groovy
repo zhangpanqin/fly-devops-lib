@@ -3,12 +3,11 @@ package com.mflyyou
 class ServicePipelineHelper implements Serializable {
     def script
     def GitHelper gitHelper
-    def String branchName
+    def String branchName = script.sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
 
     ServicePipelineHelper(script, serviceName) {
         this.script = script
         this.gitHelper = new GitHelper(script)
-        this.branchName = gitHelper.getCurrentBranchName()
         this.serviceName = "fly-devops"
     }
 
