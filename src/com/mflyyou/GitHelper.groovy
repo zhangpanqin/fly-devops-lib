@@ -2,11 +2,12 @@ package com.mflyyou
 
 class GitHelper implements Serializable{
     def script
+    def PipelineParam config
 
-
-    GitHelper(script) {
+    GitHelper(script,config) {
         this.script = script
-        this.script.echo "初始化"
+        this.config=config;
+        this.script.echo config.toString()
     }
     String getCommitter() {
         return script.sh(returnStdout: true, script: "git show -s --pretty=%an").trim()
