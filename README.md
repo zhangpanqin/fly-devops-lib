@@ -5,6 +5,7 @@ withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
   sh 'aws iam get-user'
 }
 
+// 
 boolean isImageExisted() {
   script.echo "Checking Image..."
   def imageTag = gitHelper.getImageTag(branchName)
@@ -23,5 +24,23 @@ boolean isImageExisted() {
   }
   return exist
 }
+
+// 
+echo "${env}"
+echo "${SERVICE_NAME}"
+echo SERVICE_NAME
 ```
+
+
+
+### jenkins
+
+#### environment
+
+- env.BRANCH_NAME，仅在多分支时有效，只有一个 master 时，为 null
+
+```groovy
+```
+
+
 
