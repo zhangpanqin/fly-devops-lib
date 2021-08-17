@@ -21,7 +21,7 @@ def call(PipelineParam config) {
         }
         environment {
             SERVICE_NAME = "${config.getServiceName()}"
-            iam=credentials("aws-iam-fly-devops")
+//            iam=credentials("aws-iam-fly-devops")
         }
         parameters {
             booleanParam(name: 'CHECK_IMAGE_AND_BUILD', defaultValue: true, description: 'If enabled, jenkins will build only if image not exists. If disabled, jenkins will build everytime.')
