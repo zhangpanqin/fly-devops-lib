@@ -33,7 +33,7 @@ def call(PipelineParam config) {
                 steps {
                     script {
                         echo config.toString()
-                        echo env.AWS.toString()
+                        echo env.AWS.AWS_ACCESS_KEY_ID
                     }
                 }
             }
