@@ -7,7 +7,7 @@ import com.mflyyou.ServicePipelineHelper
 def call(PipelineParam config) {
     def servicePipelineHelper = new ServicePipelineHelper(this)
     def gitHelper = new GitHelper(this,config)
-    properties([opalCollector()])
+//    properties([opalCollector()])
     pipeline {
         agent none
         options {
