@@ -9,7 +9,7 @@ class ServicePipelineHelper implements Serializable{
         this.script = script
         this.gitHelper=new GitHelper(script)
         this.branchName=branchName
-        this.serviceName=serviceName
+        this.serviceName="fly-devops"
     }
 
     boolean isImageExisted() {
