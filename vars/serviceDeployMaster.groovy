@@ -33,7 +33,9 @@ def call(PipelineParam config) {
                 steps {
                     script {
                         echo config.toString()
+//                        打印是对象
                         echo "${env}"
+                        echo env.toString()
                     }
                     withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
                         sh 'aws iam get-user'
