@@ -5,8 +5,8 @@ import com.mflyyou.PipelineParam
 import com.mflyyou.ServicePipelineHelper
 
 def call(Map config) {
-    def servicePipelineHelper = new ServicePipelineHelper(this)
-    def gitHelper = new GitHelper(this)
+//    def servicePipelineHelper = new ServicePipelineHelper(this)
+//    def gitHelper = new GitHelper(this)
     pipeline {
         agent none
 //        options {
@@ -88,11 +88,11 @@ def call(Map config) {
                     echo "failure"
                 }
             }
-            always {
-                script {
-                    echo gitHelper.loadResourceFromLibraryToString("test.json")
-                }
-            }
+//            always {
+//                script {
+//                    echo gitHelper.loadResourceFromLibraryToString("test.json")
+//                }
+//            }
         }
     }
 }
