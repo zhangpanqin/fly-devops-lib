@@ -10,7 +10,7 @@ import com.mflyyou.ServicePipelineHelper
  */
 def call(PipelineParam config) {
     def gitHelper = new GitHelper(this)
-    def servicePipelineHelper = new ServicePipelineHelper(this, config.getServiceName(), gitHelper.getCurrentBranchName())
+    def servicePipelineHelper = new ServicePipelineHelper(this, config.getServiceName(), env.BRANCH_NAME)
     pipeline {
         agent any
         options {
