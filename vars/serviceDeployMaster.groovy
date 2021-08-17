@@ -21,7 +21,7 @@ def call(PipelineParam config) {
         }
         environment {
             SERVICE_NAME = "${config.getServiceName()}"
-            IMAGE_EXIST=false
+            IMAGE_EXIST = servicePipelineHelper.isImageExisted()
         }
         parameters {
             booleanParam(name: 'CHECK_IMAGE_AND_BUILD', defaultValue: true, description: 'If enabled, jenkins will build only if image not exists. If disabled, jenkins will build everytime.')
@@ -47,12 +47,12 @@ def call(PipelineParam config) {
             stage('Build') {
                 when {
                     expression {
-                        return !params.CHECK_IMAGE_AND_BUILD || (params.CHECK_IMAGE_AND_BUILD && IMAGE_EXIST == false)
+                        return IMAGE_EXIST
                     }
                 }
                 steps {
                     script {
-                       echo "镜像不存在"
+                        echo "镜像不存在"
                     }
                 }
             }

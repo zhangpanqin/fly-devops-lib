@@ -12,7 +12,7 @@ class ServicePipelineHelper implements Serializable{
         this.serviceName=serviceName
     }
 
-    def isImageExisted() {
+    boolean isImageExisted() {
         script.echo "Checking Image..."
         def imageTag = gitHelper.getImageTag(branchName)
         def exist=false;
