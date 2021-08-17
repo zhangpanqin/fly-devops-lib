@@ -31,28 +31,27 @@ def call(PipelineParam config) {
             stage('Build') {
                 when {
                     expression {
-                        return IMAGE_EXIST
+                        return IMAGE_EXIST == "false"
                     }
                 }
                 steps {
                     script {
-                        echo "镜像不存在"
-                        echo IMAGE_EXIST
+                        servicePipelineHelper.build()
                     }
                 }
             }
-//            stage('Publish Image') {
-//                when {
-//                    expression {
-//                        return !params.CHECK_IMAGE_AND_BUILD || (params.CHECK_IMAGE_AND_BUILD && IMAGE_EXIST == "false")
-//                    }
-//                }
-//                steps {
-//                    script {
-//                        servicePipelineHelper.publishToEcr()
-//                    }
-//                }
-//            }
+            stage('Publish Image') {
+                when {
+                    expression {
+                        return params.CHECK_IMAGE_AND_BUILD && IMAGE_EXIST == "false"
+                    }
+                }
+                steps {
+                    script {
+                        servicePipelineHelper.publishToEcr()
+                    }
+                }
+            }
 //            stage('Deploy to QA') {
 //                when {
 //                    expression { return params.DEPLOY_TO_QA }
