@@ -1,8 +1,3 @@
-package com.mflyyou
-
-import com.mflyyou.GitHelper
-import com.mflyyou.PipelineParam
-import com.mflyyou.ServicePipelineHelper
 
 def call(Map config) {
 //    def servicePipelineHelper = new ServicePipelineHelper(this)
