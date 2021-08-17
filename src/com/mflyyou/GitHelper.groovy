@@ -1,7 +1,7 @@
 package com.mflyyou
 
 class GitHelper implements Serializable{
-    def script;
+    def script
 
 
     GitHelper(script) {
