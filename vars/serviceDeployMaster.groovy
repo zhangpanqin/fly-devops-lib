@@ -35,8 +35,8 @@ def call(PipelineParam config) {
                     script {
                         echo config.toString()
                     }
-                    withCredentials([aws(credentialsId: 'aws-iam-fly-devops', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                        echo "${AWS_ACCESS_KEY_ID}"
+                    withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
+                        sh 'aws iam get-user'
                     }
                 }
             }
