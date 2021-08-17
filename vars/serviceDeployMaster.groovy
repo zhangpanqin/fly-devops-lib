@@ -34,8 +34,7 @@ def call(PipelineParam config) {
                 steps {
                     script {
                         echo config.toString()
-                        echo "${env.AWS_ACCESS_IAM.AWSAccessKeyId}"
-                        echo "${env.AWS_ACCESS_IAM.AWSSecretKey}"
+                        echo "${env.AWS_ACCESS_IAM}"
                     }
                 }
             }
