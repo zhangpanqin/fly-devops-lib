@@ -21,7 +21,7 @@ def call(PipelineParam config) {
         environment {
             SERVICE_NAME = "${config.getServiceName()}"
 //            AWSAccessKeyId and AWSSecretKey
-            AWS_ACCESS_IAM = credentials('aws-iam-fly-devops')
+//            AWS_ACCESS_IAM = credentials('aws-iam-fly-devops')
 //            IMAGE_EXIST = "${servicePipelineHelper.isImageExisted()}"
         }
         parameters {
@@ -35,6 +35,10 @@ def call(PipelineParam config) {
                     script {
                         echo config.toString()
                         echo "${env.AWS_ACCESS_IAM_AWSAccessKeyId}"
+                    }
+                    withCredentials([usernamePassword(credentialsId: 'aws-iam-fly-devops', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                        sh 'echo $AWS_ACCESS_KEY_ID'
+                        sh 'echo $AWS_SECRET_ACCESS_KEY'
                     }
                 }
             }
