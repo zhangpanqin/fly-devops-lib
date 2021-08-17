@@ -2,8 +2,14 @@ import com.mflyyou.GitHelper
 import com.mflyyou.PipelineParam
 import com.mflyyou.ServicePipelineHelper
 
+/**
+ * env.BRANCH_NAME,
+ * env.BUILD_NUMBER,
+ * env.JOB_NAME,
+ * env.BUILD_URL
+ */
 def call(PipelineParam config) {
-    def servicePipelineHelper = new ServicePipelineHelper(this)
+    def servicePipelineHelper = new ServicePipelineHelper(this, config.getServiceName(), env.BRANCH_NAME)
     def gitHelper = new GitHelper(this)
     pipeline {
         agent none

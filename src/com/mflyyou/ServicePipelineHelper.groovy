@@ -3,9 +3,13 @@ package com.mflyyou
 class ServicePipelineHelper implements Serializable{
     def script
     def GitHelper gitHelper
-    ServicePipelineHelper(script) {
+    def String branchName
+    def String serviceName
+    ServicePipelineHelper(script,serviceName,branchName) {
         this.script = script
         this.gitHelper=new GitHelper(script)
+        this.branchName=branchName
+        this.serviceName=serviceName
     }
 
     def isImageExisted() {
