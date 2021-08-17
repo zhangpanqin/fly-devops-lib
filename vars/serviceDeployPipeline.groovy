@@ -2,7 +2,7 @@ import com.mflyyou.PipelineParam
 
 def call(Map config) {
     def pipelineParam = new PipelineParam(config.serviceName)
-    echo config
-    echo pipelineParam
+    echo config.toString()
+    echo pipelineParam.toString()
 //    serviceDeployMaster(new PipelineParam(config.serviceName))
 }
