@@ -3,7 +3,7 @@ package com.mflyyou
 class GitHelper implements Serializable{
     def script
 
-    GitHelper(script,config) {
+    GitHelper(script) {
         this.script = script
     }
     String getCommitter() {
