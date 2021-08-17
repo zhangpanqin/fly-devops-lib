@@ -33,7 +33,7 @@ def call(PipelineParam config) {
                 steps {
                     script {
                         echo config.toString()
-                        echo AWS.toString()
+                        echo env.AWS.toString()
                     }
                 }
             }
