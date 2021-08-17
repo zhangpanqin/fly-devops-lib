@@ -1,7 +1,7 @@
 import com.mflyyou.PipelineParam
 
-def call(PipelineParam config) {
+def call(Map config) {
     if (env.BRANCH_NAME == 'master') {
-        serviceDeployMaster(config)
+        serviceDeployMaster(new PipelineParam(config.serviceName))
     }
 }
