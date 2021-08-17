@@ -9,6 +9,7 @@ import com.mflyyou.ServicePipelineHelper
  * env.BUILD_URL
  */
 def call(PipelineParam config) {
+    echo env.BRANCH_NAME
     def servicePipelineHelper = new ServicePipelineHelper(this, config.getServiceName(), env.BRANCH_NAME)
     def gitHelper = new GitHelper(this)
     pipeline {
