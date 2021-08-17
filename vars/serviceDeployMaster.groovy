@@ -9,8 +9,8 @@ import com.mflyyou.ServicePipelineHelper
  * env.BUILD_URL
  */
 def call(PipelineParam config) {
-    def servicePipelineHelper = new ServicePipelineHelper(this, config.getServiceName(), env.BRANCH_NAME)
     def gitHelper = new GitHelper(this)
+    def servicePipelineHelper = new ServicePipelineHelper(this, config.getServiceName(), gitHelper.getCurrentBranchName())
     pipeline {
         agent any
         options {
@@ -21,7 +21,6 @@ def call(PipelineParam config) {
         environment {
             SERVICE_NAME = "${config.getServiceName()}"
             IMAGE_EXIST = servicePipelineHelper.isImageExisted()
-            BRANCH_NAME = BRANCH_NAME == null ? "master" : BRANCH_NAME
         }
         parameters {
             booleanParam(name: 'CHECK_IMAGE_AND_BUILD', defaultValue: true, description: 'If enabled, jenkins will build only if image not exists. If disabled, jenkins will build everytime.')
