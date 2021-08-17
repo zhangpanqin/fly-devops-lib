@@ -20,9 +20,11 @@ def call(PipelineParam config) {
         }
         environment {
             SERVICE_NAME = "${config.getServiceName()}"
-//            AWSAccessKeyId and AWSSecretKey
-//            AWS_ACCESS_IAM = credentials('aws-iam-fly-devops')
-//            IMAGE_EXIST = "${servicePipelineHelper.isImageExisted()}"
+            withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
+                sh 'aws iam get-user'
+                env.IMAGE_EXIST = "${servicePipelineHelper.isImageExisted()}"
+                sh env
+            }
         }
         parameters {
             booleanParam(name: 'CHECK_IMAGE_AND_BUILD', defaultValue: true, description: 'If enabled, jenkins will build only if image not exists. If disabled, jenkins will build everytime.')
