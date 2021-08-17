@@ -28,21 +28,6 @@ def call(PipelineParam config) {
             booleanParam(name: 'DEPLOY_TO_UAT', defaultValue: false, description: 'Deploy to UAT.')
         }
         stages {
-            stage('echo 打印参数') {
-                steps {
-                    script {
-                        echo config.toString()
-//                        打印是对象
-                        echo "${env}"
-                        echo "${SERVICE_NAME}"
-                        echo SERVICE_NAME
-
-                    }
-//                    withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
-//                        sh 'aws iam get-user'
-//                    }
-                }
-            }
             stage('Build') {
                 when {
                     expression {
@@ -52,6 +37,7 @@ def call(PipelineParam config) {
                 steps {
                     script {
                         echo "镜像不存在"
+                        echo IMAGE_EXIST
                     }
                 }
             }
