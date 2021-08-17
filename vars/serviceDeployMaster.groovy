@@ -20,7 +20,7 @@ def call(PipelineParam config) {
         }
         environment {
             SERVICE_NAME = "${config.getServiceName()}"
-            AWS =credentials('aws-iam-fly-devops')
+            AWS_ACCESS_KEY_ID =credentials('aws-iam-fly-devops')
 //            IMAGE_EXIST = "${servicePipelineHelper.isImageExisted()}"
         }
         parameters {
