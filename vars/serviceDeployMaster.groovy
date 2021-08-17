@@ -20,6 +20,13 @@ def call(PipelineParam config) {
             booleanParam(name: 'DEPLOY_TO_UAT', defaultValue: false, description: 'Deploy to UAT.')
         }
         stages {
+            stage('echo 打印参数') {
+                steps {
+                    script {
+                        sh config.toString()
+                    }
+                }
+            }
             stage('Build') {
                 when {
                     expression {
