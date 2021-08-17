@@ -6,7 +6,7 @@ import com.mflyyou.ServicePipelineHelper
 
 def call(Map config) {
     def servicePipelineHelper = new ServicePipelineHelper(this)
-    def gitHelper = new GitHelper(this,config)
+    def gitHelper = new GitHelper(this)
     pipeline {
         agent none
 //        options {
