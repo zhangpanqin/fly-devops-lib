@@ -16,7 +16,7 @@ def call(PipelineParam config) {
         }
         environment {
             SERVICE_NAME = "${config.getServiceName()}"
-            IMAGE_EXIST = "${servicePipelineHelper.isImageExisted()}"
+//            IMAGE_EXIST = "${servicePipelineHelper.isImageExisted()}"
         }
         parameters {
             booleanParam(name: 'CHECK_IMAGE_AND_BUILD', defaultValue: true, description: 'If enabled, jenkins will build only if image not exists. If disabled, jenkins will build everytime.')
@@ -27,55 +27,55 @@ def call(PipelineParam config) {
             stage('echo 打印参数') {
                 steps {
                     script {
-                        sh config.toString()
+                        echo config.toString()
                     }
                 }
             }
-            stage('Build') {
-                when {
-                    expression {
-                        return !params.CHECK_IMAGE_AND_BUILD || (params.CHECK_IMAGE_AND_BUILD && IMAGE_EXIST == "false")
-                    }
-                }
-                steps {
-                    script {
-                        sh config.toString()
-                        servicePipelineHelper.build()
-                    }
-                }
-            }
-            stage('Publish Image') {
-                when {
-                    expression {
-                        return !params.CHECK_IMAGE_AND_BUILD || (params.CHECK_IMAGE_AND_BUILD && IMAGE_EXIST == "false")
-                    }
-                }
-                steps {
-                    script {
-                        servicePipelineHelper.publishToEcr()
-                    }
-                }
-            }
-            stage('Deploy to QA') {
-                when {
-                    expression { return params.DEPLOY_TO_QA }
-                }
-                steps {
-                    script {
-                        servicePipelineHelper.deployTo(Environments.qa)
-                    }
-                }
-            }
-            stage('Deploy to UAT') {
-                when {
-                    expression { return params.DEPLOY_TO_UAT }
-                }
-                steps {
-                    script {
-                        servicePipelineHelper.deployTo(Environments.uat)
-                    }
-                }
-            }
+//            stage('Build') {
+//                when {
+//                    expression {
+//                        return !params.CHECK_IMAGE_AND_BUILD || (params.CHECK_IMAGE_AND_BUILD && IMAGE_EXIST == "false")
+//                    }
+//                }
+//                steps {
+//                    script {
+//                        sh config.toString()
+//                        servicePipelineHelper.build()
+//                    }
+//                }
+//            }
+//            stage('Publish Image') {
+//                when {
+//                    expression {
+//                        return !params.CHECK_IMAGE_AND_BUILD || (params.CHECK_IMAGE_AND_BUILD && IMAGE_EXIST == "false")
+//                    }
+//                }
+//                steps {
+//                    script {
+//                        servicePipelineHelper.publishToEcr()
+//                    }
+//                }
+//            }
+//            stage('Deploy to QA') {
+//                when {
+//                    expression { return params.DEPLOY_TO_QA }
+//                }
+//                steps {
+//                    script {
+//                        servicePipelineHelper.deployTo(Environments.qa)
+//                    }
+//                }
+//            }
+//            stage('Deploy to UAT') {
+//                when {
+//                    expression { return params.DEPLOY_TO_UAT }
+//                }
+//                steps {
+//                    script {
+//                        servicePipelineHelper.deployTo(Environments.uat)
+//                    }
+//                }
+//            }
         }
         post {
             fixed {
