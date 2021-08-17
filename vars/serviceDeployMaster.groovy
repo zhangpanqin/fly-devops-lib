@@ -21,7 +21,7 @@ def call(PipelineParam config) {
         }
         environment {
             SERVICE_NAME = "${config.getServiceName()}"
-//            iam=credentials("aws-iam-fly-devops")
+            IMAGE_EXIST=false
         }
         parameters {
             booleanParam(name: 'CHECK_IMAGE_AND_BUILD', defaultValue: true, description: 'If enabled, jenkins will build only if image not exists. If disabled, jenkins will build everytime.')
@@ -39,21 +39,20 @@ def call(PipelineParam config) {
                         echo SERVICE_NAME
 
                     }
-                    withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
-                        sh 'aws iam get-user'
-                    }
+//                    withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
+//                        sh 'aws iam get-user'
+//                    }
                 }
             }
             stage('Build') {
                 when {
                     expression {
-                        return !params.CHECK_IMAGE_AND_BUILD || (params.CHECK_IMAGE_AND_BUILD && IMAGE_EXIST == "false")
+                        return !params.CHECK_IMAGE_AND_BUILD || (params.CHECK_IMAGE_AND_BUILD && IMAGE_EXIST == false)
                     }
                 }
                 steps {
                     script {
-                        sh config.toString()
-                        servicePipelineHelper.build()
+                       echo "镜像不存在"
                     }
                 }
             }
