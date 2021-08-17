@@ -22,7 +22,7 @@ def call(PipelineParam config) {
             SERVICE_NAME = "${config.getServiceName()}"
             withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
                 sh 'aws iam get-user'
-                env.IMAGE_EXIST = "${servicePipelineHelper.isImageExisted()}"
+//                env.IMAGE_EXIST = "${servicePipelineHelper.isImageExisted()}"
                 sh env
             }
         }
