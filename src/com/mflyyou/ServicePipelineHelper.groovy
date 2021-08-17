@@ -14,6 +14,7 @@ class ServicePipelineHelper implements Serializable{
 
     boolean isImageExisted() {
         script.echo "Checking Image..."
+        script.echo "Checking Image... ${branchName}"
         def imageTag = gitHelper.getImageTag(branchName)
         def exist=false;
         script.withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
