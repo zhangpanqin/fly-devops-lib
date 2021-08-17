@@ -7,7 +7,6 @@ class GitHelper implements Serializable{
     GitHelper(script,config) {
         this.script = script
         this.config=config;
-        this.script.echo config.toString()
     }
     String getCommitter() {
         return script.sh(returnStdout: true, script: "git show -s --pretty=%an").trim()
