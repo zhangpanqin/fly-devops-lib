@@ -12,7 +12,7 @@ def call(PipelineParam config) {
     def servicePipelineHelper = new ServicePipelineHelper(this, config.getServiceName(), env.BRANCH_NAME)
     def gitHelper = new GitHelper(this)
     pipeline {
-        agent none
+        agent any
         options {
             disableConcurrentBuilds()
 //            保存构建历史
