@@ -37,7 +37,6 @@ def call(PipelineParam config) {
                         echo "${env}"
                         echo "${SERVICE_NAME}"
                         echo SERVICE_NAME
-                        echo "SERVICE_NAME"
 
                     }
                     withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
@@ -45,19 +44,19 @@ def call(PipelineParam config) {
                     }
                 }
             }
-//            stage('Build') {
-//                when {
-//                    expression {
-//                        return !params.CHECK_IMAGE_AND_BUILD || (params.CHECK_IMAGE_AND_BUILD && IMAGE_EXIST == "false")
-//                    }
-//                }
-//                steps {
-//                    script {
-//                        sh config.toString()
-//                        servicePipelineHelper.build()
-//                    }
-//                }
-//            }
+            stage('Build') {
+                when {
+                    expression {
+                        return !params.CHECK_IMAGE_AND_BUILD || (params.CHECK_IMAGE_AND_BUILD && IMAGE_EXIST == "false")
+                    }
+                }
+                steps {
+                    script {
+                        sh config.toString()
+                        servicePipelineHelper.build()
+                    }
+                }
+            }
 //            stage('Publish Image') {
 //                when {
 //                    expression {
