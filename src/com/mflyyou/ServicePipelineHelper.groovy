@@ -3,7 +3,6 @@ package com.mflyyou
 class ServicePipelineHelper implements Serializable {
     def script
     def GitHelper gitHelper
-    def String branchName = script.sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
 
     ServicePipelineHelper(script, serviceName) {
         this.script = script
@@ -11,9 +10,10 @@ class ServicePipelineHelper implements Serializable {
         this.serviceName = "fly-devops"
     }
 
-    boolean isImageExisted() {
-        script.echo "Checking Image..."
-        script.echo "Checking Image... ${branchName}"
+    boolean isImageExisted(String branchName) {
+        if(Objects.isNull(branchName)||"".equals(branchName)){
+            branchName="master"
+        }
         def imageTag = gitHelper.getImageTag(branchName)
         def exist = false;
         script.withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
