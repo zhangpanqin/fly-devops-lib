@@ -37,6 +37,7 @@ def call(PipelineParam config) {
                         echo "${env}"
                         echo "${SERVICE_NAME}"
                         echo SERVICE_NAME
+                        echo "SERVICE_NAME"
 
                     }
                     withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
