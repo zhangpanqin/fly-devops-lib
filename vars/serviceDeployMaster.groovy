@@ -11,7 +11,7 @@ def call(PipelineParam config) {
             buildDiscarder(logRotator(daysToKeepStr: '5'))
         }
         environment {
-            SERVICE_NAME = "${config.serviceName}"
+            SERVICE_NAME = "${config.getServiceName()}"
             IMAGE_EXIST = "${servicePipelineHelper.isImageExisted()}"
         }
         parameters {
@@ -28,6 +28,7 @@ def call(PipelineParam config) {
                 }
                 steps {
                     script {
+                        sh config.toString()
                         servicePipelineHelper.build()
                     }
                 }
