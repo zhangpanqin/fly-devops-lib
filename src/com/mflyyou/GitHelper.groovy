@@ -7,27 +7,24 @@ class GitHelper implements Serializable {
         this.script = script
     }
 
+    String getCurrentBranchName() {
+        return script.sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
+    }
 
     String getCommitter() {
         return script.sh(returnStdout: true, script: "git show -s --pretty=%an").trim()
     }
 
     String getImageTag(String branchName = "master") {
-        def commitNumber = script.sh(returnStdout: true, script: "git rev-parse --short HEAD").trim()
+        def commitNumber = script.sh(returnStdout: true, script: "git rev-parse HEAD").trim()
         return "${branchName}-${commitNumber}".replaceAll("/", "-")
     }
 
     String getLastImageTag(String branchName = "master") {
-        def commitNumber = script.sh(returnStdout: true, script: "git rev-parse --short HEAD^").trim()
+        def commitNumber = this.getFullGitCommitHash()
         return "${branchName}-${commitNumber}".replaceAll("/", "-")
     }
 
-    String getCurrentBranchName(){
-        // git branch --show-current
-//        return script.sh(returnStdout: true, script: "git branch --show-current").trim()
-//        return script.sh(returnStdout: true, script: "git rev-parse --abbrev-ref HEAD").trim()
-        return script.sh(returnStdout: true, script: "git branch --contains HEAD").trim().replaceAll("\\* ", "")
-    }
 
     String getFullGitCommitHash() {
         return script.sh(returnStdout: true, script: "git rev-parse HEAD").trim()
@@ -38,20 +35,12 @@ class GitHelper implements Serializable {
     }
 
     def loadResourceFromLibrary(String path) {
-        try {
-            def resourceContent = script.libraryResource(path)
-            script.writeFile file: path, text: resourceContent
-            script.sh "chmod +x ${path}"
-        } catch (Exception e) {
-            script.echo "load resource from library failed, path=${path}, message=${e.getMessage()}"
-        }
+        def resourceContent = script.libraryResource(path)
+        script.writeFile file: path, text: resourceContent
+        script.sh "chmod +x ${path}"
     }
 
     String loadResourceFromLibraryToString(String path) {
-        try {
-            return script.libraryResource(path)
-        } catch (Exception e) {
-            return "error";
-        }
+        return script.libraryResource(path)
     }
 }
