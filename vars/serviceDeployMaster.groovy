@@ -44,7 +44,7 @@ def call(PipelineParam config) {
             stage('Delete Last Image') {
                 when {
                     expression {
-                        return params.CHECK_IMAGE_AND_BUILD && LAST_IMAGE_EXIST == "true"
+                        return params.CHECK_IMAGE_AND_BUILD && LAST_IMAGE_EXIST == "true" && IMAGE_EXIST == "false"
                     }
                 }
                 steps {
