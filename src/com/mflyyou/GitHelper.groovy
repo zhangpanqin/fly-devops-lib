@@ -25,7 +25,8 @@ class GitHelper implements Serializable {
     String getCurrentBranchName(){
         // git branch --show-current
 //        return script.sh(returnStdout: true, script: "git branch --show-current").trim()
-        return script.sh(returnStdout: true, script: "git rev-parse --abbrev-ref HEAD").trim()
+//        return script.sh(returnStdout: true, script: "git rev-parse --abbrev-ref HEAD").trim()
+        return script.sh(returnStdout: true, script: "git symbolic-ref --short HEAD").trim()
     }
 
     String getFullGitCommitHash() {
@@ -33,7 +34,7 @@ class GitHelper implements Serializable {
     }
 
     String getGitCommitHash() {
-        return script.sh(returnStdout: true, script: "git symbolic-ref --short HEAD").trim()
+        return script.sh(returnStdout: true, script: "git rev-parse --short HEAD").trim()
     }
 
     def loadResourceFromLibrary(String path) {
