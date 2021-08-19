@@ -31,7 +31,7 @@ def call(PipelineParam config) {
 //            booleanParam(name: 'DEPLOY_TO_UAT', defaultValue: false, description: 'Deploy to UAT.')
 //        }
         stages {
-            stage{
+            stage('echo') {
                 echo "${currentBranchName}"
             }
 //            stage('Build') {
