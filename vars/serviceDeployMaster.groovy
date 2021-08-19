@@ -21,6 +21,7 @@ def call(PipelineParam config) {
         environment {
             SERVICE_NAME = "${config.getServiceName()}"
             IMAGE_EXIST = servicePipelineHelper.isImageExisted()
+            LAST_IMAGE_EXIST = servicePipelineHelper.isImageExisted()
         }
         parameters {
             booleanParam(name: 'CHECK_IMAGE_AND_BUILD', defaultValue: true, description: 'If enabled, jenkins will build only if image not exists. If disabled, jenkins will build everytime.')
@@ -37,6 +38,18 @@ def call(PipelineParam config) {
                 steps {
                     script {
                         servicePipelineHelper.build()
+                    }
+                }
+            }
+            stage('Delete Last Image') {
+                when {
+                    expression {
+                        return params.CHECK_IMAGE_AND_BUILD && LAST_IMAGE_EXIST == "true"
+                    }
+                }
+                steps {
+                    script {
+                        servicePipelineHelper.deleteLastImageFromEcr()
                     }
                 }
             }
