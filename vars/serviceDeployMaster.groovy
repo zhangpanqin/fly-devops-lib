@@ -20,8 +20,10 @@ def call(PipelineParam config) {
         }
         environment {
             SERVICE_NAME = "${config.getServiceName()}"
-            IMAGE_EXIST = servicePipelineHelper.isImageExisted()
+            IMAGE_EXIST = servicePipelineHelper.isImageExisted(gitHelper.currentBranchName())
+            echo "IMAGE EXIST ${MAGE_EXIST}"
             LAST_IMAGE_EXIST = servicePipelineHelper.isLastImageExisted(gitHelper.currentBranchName())
+            echo "LAST IMAGE EXIST ${LAST_IMAGE_EXIST}"
         }
         parameters {
             booleanParam(name: 'CHECK_IMAGE_AND_BUILD', defaultValue: true, description: 'If enabled, jenkins will build only if image not exists. If disabled, jenkins will build everytime.')

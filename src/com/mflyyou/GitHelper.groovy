@@ -16,7 +16,7 @@ class GitHelper implements Serializable {
     }
 
     String getImageTag(String branchName = "master") {
-        def commitNumber = script.sh(returnStdout: true, script: "git rev-parse HEAD").trim()
+        def commitNumber = this.getFullGitCommitHash()
         return "${branchName}-${commitNumber}".replaceAll("/", "-")
     }
 
