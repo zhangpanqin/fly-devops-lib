@@ -18,15 +18,12 @@ class ServicePipelineHelper implements Serializable {
         def imageTag = gitHelper.getImageTag(branchName)
         def exist = false;
         script.withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
-            try {
-                def status = script.sh(returnStatus: true, script: "aws ecr describe-images --region us-east-2 --repository-name=${serviceName} --image-ids=imageTag=${imageTag}")
-                if (status == 0) {
-                    script.echo "Image exists"
-                    exist = true
-                }
+            def status = script.sh(returnStatus: true, script: "aws ecr describe-images --region us-east-2 --repository-name=${serviceName} --image-ids=imageTag=${imageTag}")
+            if (status == 0) {
+                script.echo "Image exists"
+                exist = true
+            } else {
                 script.echo "Image not exists"
-            } catch (Exception e) {
-                script.echo e.getMessage()
             }
         }
         return exist
@@ -39,15 +36,12 @@ class ServicePipelineHelper implements Serializable {
         def imageTag = gitHelper.getLastImageTag(branchName)
         def exist = false;
         script.withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
-            try {
-                def status = script.sh(returnStatus: true, script: "aws ecr describe-images --region us-east-2 --repository-name=${serviceName} --image-ids=imageTag=${imageTag}")
-                if (status == 0) {
-                    script.echo "Last Image exists"
-                    exist = true
-                }
+            def status = script.sh(returnStatus: true, script: "aws ecr describe-images --region us-east-2 --repository-name=${serviceName} --image-ids=imageTag=${imageTag}")
+            if (status == 0) {
+                script.echo "Last Image exists"
+                exist = true
+            } else {
                 script.echo "Last Image not exists"
-            } catch (Exception e) {
-                script.echo e.getMessage()
             }
         }
         return exist
