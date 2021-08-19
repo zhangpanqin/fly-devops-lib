@@ -41,7 +41,9 @@ script {
 }
 ```
 
-
+```
+aws ecr batch-delete-image --repository-name order-manage-service --image-ids imageTag=latest imageTag=HEAD-adf9318f8d9ea7be8674612c213a8e9063b99ce8
+```
 
 ### aws
 

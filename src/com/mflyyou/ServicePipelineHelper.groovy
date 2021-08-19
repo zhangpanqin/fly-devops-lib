@@ -61,7 +61,7 @@ class ServicePipelineHelper implements Serializable {
             script.sh """
                         aws ecr batch-delete-image \
                             --repository-name ${serviceName} \
-                            --image-ids imageTag=${lastImageTag}
+                            --image-ids imageTag=latest imageTag=${lastImageTag}
                       """
         }
     }
