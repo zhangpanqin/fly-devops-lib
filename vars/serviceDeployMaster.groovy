@@ -30,7 +30,7 @@ def call(PipelineParam config) {
         stages {
             stage('echo env') {
                 steps {
-                    echo "IMAGE EXIST ${env.MAGE_EXIST}"
+                    echo "IMAGE EXIST ${env.IMAGE_EXIST}"
                     echo "LAST IMAGE EXIST ${env.LAST_IMAGE_EXIST}"
                 }
             }
