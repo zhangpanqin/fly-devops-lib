@@ -33,7 +33,7 @@ def call(PipelineParam config) {
                 steps {
                     script {
                         withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
-                            def images = ecrListImages(repositoryName: "${serviceName}", filter: "imageTag=HEAD-24b17ec")
+                            def images = ecrListImages(repositoryName: "${config.getServiceName()}", filter: "imageTag=HEAD-24b17ec")
                             echo "${data}"
                         }
                         withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
