@@ -70,26 +70,6 @@ def call(PipelineParam config) {
                     }
                 }
             }
-//            stage('Deploy to QA') {
-//                when {
-//                    expression { return params.DEPLOY_TO_QA }
-//                }
-//                steps {
-//                    script {
-//                        servicePipelineHelper.deployTo(Environments.qa)
-//                    }
-//                }
-//            }
-//            stage('Deploy to UAT') {
-//                when {
-//                    expression { return params.DEPLOY_TO_UAT }
-//                }
-//                steps {
-//                    script {
-//                        servicePipelineHelper.deployTo(Environments.uat)
-//                    }
-//                }
-//            }
         }
         post {
             fixed {
