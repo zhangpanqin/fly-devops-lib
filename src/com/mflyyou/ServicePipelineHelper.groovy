@@ -58,21 +58,26 @@ class ServicePipelineHelper implements Serializable {
         script.sh './gradlew clean build --write-verification-metadata sha256 --info'
     }
 
-    def deleteLastImageFromEcr(){
+    def deleteLastImageFromEcr() {
         // 因为 ecr 免费空间时 500m, 所以每次提交之后,先删除上一个镜像
         script.echo 'Delete Image from ECR...'
+        def lastImageTag = gitHelper.getLastImageTag(gitHelper.getCurrentBranchName())
+        script.echo "lastImageTag is ${lastImageTag}"
         script.withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
             script.sh """
                         aws ecr batch-delete-image \
                             --repository-name ${serviceName} \
-                            --image-ids imageTag=${gitHelper.getLastImageTag(gitHelper.getCurrentBranchName())}
+                            --image-ids imageTag=${lastImageTag}
                       """
         }
     }
+
     def publishToEcr() {
+        def currentImageTag = gitHelper.getImageTag(gitHelper.getCurrentBranchName())
+        script.echo "currentImageTag is ${currentImageTag}"
         script.withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
             script.echo 'Push Image to ECR...'
-            script.sh "./gradlew jib -Djib.to.tags=${gitHelper.getImageTag(gitHelper.getCurrentBranchName())}"
+            script.sh "./gradlew jib -Djib.to.tags=${currentImageTag}"
         }
     }
 
