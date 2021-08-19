@@ -9,11 +9,8 @@ import com.mflyyou.ServicePipelineHelper
  * env.BUILD_URL
  */
 def call(PipelineParam config) {
-    def currentBranchName = "${env.GIT_BRANCH}"
-    echo "currentBranchName is ${currentBranchName}"
     def gitHelper = new GitHelper(this)
     def servicePipelineHelper = new ServicePipelineHelper(this, config.getServiceName())
-    def serviceName = config.branchName
     pipeline {
         agent any
 //        options {
@@ -43,7 +40,7 @@ def call(PipelineParam config) {
 //                    }
                     script {
                         withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
-                            def data = sh(returnStdout: true, script: "aws ecr describe-images --region us-east-2 --repository-name=${serviceName} --image-ids=imageTag=HEAD-24b17ec")
+                            def data = sh(returnStdout: true, script: "aws ecr describe-images --region us-east-2 --repository-name=${config.branchName} --image-ids=imageTag=HEAD-24b17ec")
                             echo "${data}"
                         }
                         if (fileExists("/git-2.33.0")) {
