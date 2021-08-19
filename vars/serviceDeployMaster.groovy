@@ -36,16 +36,18 @@ def call(PipelineParam config) {
                     echo "${currentBranchName}"
                     echo gitHelper.getCurrentBranchName()
 
-                    if(fileExists("/git-2.33.0")){
-                        echo "git-2.33.0 exist"
-                    }else {
-                        echo "git-2.33.0 not exist"
-                    }
+                    script {
+                        if (fileExists("/git-2.33.0")) {
+                            echo "git-2.33.0 exist"
+                        } else {
+                            echo "git-2.33.0 not exist"
+                        }
 
-                    if(fileExists("./settings.gradle")){
-                        echo "settings.gradle exist"
-                    }else {
-                        echo "settings.gradle not exist"
+                        if (fileExists("./settings.gradle")) {
+                            echo "settings.gradle exist"
+                        } else {
+                            echo "settings.gradle not exist"
+                        }
                     }
                 }
             }
