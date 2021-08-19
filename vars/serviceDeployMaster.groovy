@@ -41,9 +41,9 @@ def call(PipelineParam config) {
                     withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
                         def images = ecrListImages(repositoryName: "${serviceName}", filter: "imageTag=HEAD-24b17ec")
                     }
-                    def data = sh(returnStdout: true, script: "aws ecr describe-images --region us-east-2 --repository-name=${serviceName} --image-ids=imageTag=HEAD-24b17ec")
-                    echo "${data}"
                     script {
+                        def data = sh(returnStdout: true, script: "aws ecr describe-images --region us-east-2 --repository-name=${serviceName} --image-ids=imageTag=HEAD-24b17ec")
+                        echo "${data}"
                         if (fileExists("/git-2.33.0")) {
                             echo "git-2.33.0 exist"
                         } else {
