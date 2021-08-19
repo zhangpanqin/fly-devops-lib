@@ -34,6 +34,7 @@ def call(PipelineParam config) {
             stage('echo') {
                 steps {
                     echo "${currentBranchName}"
+                    echo gitHelper.getCurrentBranchName()
                 }
             }
 //            stage('Build') {

@@ -22,6 +22,11 @@ class GitHelper implements Serializable {
         return "${branchName}-${commitNumber}".replaceAll("/", "-")
     }
 
+    String getCurrentBranchName(){
+        // git branch --show-current
+        return script.sh(returnStdout: true, script: "git branch --show-current").trim()
+    }
+
     String getFullGitCommitHash() {
         return script.sh(returnStdout: true, script: "git rev-parse HEAD").trim()
     }
