@@ -14,6 +14,7 @@ stage('echo') {
     echo fileExists("/git-2.33.0").toString()
     echo "${fileExists("/git-2.33.0")}"
     script {
+      
       if (fileExists("/git-2.33.0")) {
         echo "git-2.33.0 exist"
       } else {
@@ -27,6 +28,14 @@ stage('echo') {
       }
     }
   }
+}
+```
+
+```shell
+withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
+  def data = sh(returnStdout: true, script: "aws ecr describe-images --region us-east-2 --repository-name=${config.getServiceName()} --image-ids=imageTag=HEAD-24b17ec")
+  # 打印字符串
+  echo "${data}"
 }
 ```
 
