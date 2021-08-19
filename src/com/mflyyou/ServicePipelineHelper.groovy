@@ -60,8 +60,8 @@ class ServicePipelineHelper implements Serializable {
 
     def deleteLastImageFromEcr(){
         // 因为 ecr 免费空间时 500m, 所以每次提交之后,先删除上一个镜像
+        script.echo 'Delete Image from ECR...'
         script.withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
-            script.echo 'Delete Image from ECR...'
             script.sh """
                         aws ecr batch-delete-image \
                             --repository-name ${serviceName} \
