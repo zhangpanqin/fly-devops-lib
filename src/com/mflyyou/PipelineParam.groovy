@@ -1,10 +1,20 @@
 package com.mflyyou
 
-class PipelineParam implements Serializable{
+class PipelineParam implements Serializable {
     String serviceName;
+    String branchName;
 
-    PipelineParam(String serviceName) {
+    PipelineParam(String serviceName, String branchName) {
         this.serviceName = serviceName
+        this.branchName = branchName
+    }
+
+    String getBranchName() {
+        return branchName
+    }
+
+    void setBranchName(String branchName) {
+        this.branchName = branchName
     }
 
     String getServiceName() {
@@ -21,20 +31,24 @@ class PipelineParam implements Serializable{
 
         PipelineParam that = (PipelineParam) o
 
+        if (branchName != that.branchName) return false
         if (serviceName != that.serviceName) return false
 
         return true
     }
 
     int hashCode() {
-        return (serviceName != null ? serviceName.hashCode() : 0)
+        int result
+        result = (serviceName != null ? serviceName.hashCode() : 0)
+        result = 31 * result + (branchName != null ? branchName.hashCode() : 0)
+        return result
     }
-
 
     @Override
     public String toString() {
         return "PipelineParam{" +
                 "serviceName='" + serviceName + '\'' +
+                ", branchName='" + branchName + '\'' +
                 '}';
     }
 }
