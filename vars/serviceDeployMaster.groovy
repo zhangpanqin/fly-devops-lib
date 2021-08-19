@@ -31,16 +31,12 @@ def call(PipelineParam config) {
         stages {
             stage('echo') {
                 steps {
-                    echo "${currentBranchName}"
-                    echo gitHelper.getCurrentBranchName()
-                    echo fileExists("/git-2.33.0").toString()
-                    echo "${fileExists("/git-2.33.0")}"
 //                    withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
 //                        def images = ecrListImages(repositoryName: "${serviceName}", filter: "imageTag=HEAD-24b17ec")
 //                    }
                     script {
                         withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
-                            def data = sh(returnStdout: true, script: "aws ecr describe-images --region us-east-2 --repository-name=${config.branchName} --image-ids=imageTag=HEAD-24b17ec")
+                            def data = sh(returnStdout: true, script: "aws ecr describe-images --region us-east-2 --repository-name=${config.getServiceName()} --image-ids=imageTag=HEAD-24b17ec")
                             echo "${data}"
                         }
                         if (fileExists("/git-2.33.0")) {
