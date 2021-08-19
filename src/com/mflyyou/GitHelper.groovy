@@ -26,7 +26,7 @@ class GitHelper implements Serializable {
         // git branch --show-current
 //        return script.sh(returnStdout: true, script: "git branch --show-current").trim()
 //        return script.sh(returnStdout: true, script: "git rev-parse --abbrev-ref HEAD").trim()
-        return script.sh(returnStdout: true, script: "git symbolic-ref --short HEAD").trim()
+        return script.sh(returnStdout: true, script: "git branch | awk -v FS=' ' '/\\*/{print $NF}' | sed 's|[()]||g'").trim()
     }
 
     String getFullGitCommitHash() {
