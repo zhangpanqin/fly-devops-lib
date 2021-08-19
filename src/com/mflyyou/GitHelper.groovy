@@ -2,13 +2,11 @@ package com.mflyyou
 
 class GitHelper implements Serializable {
     def script
+
     GitHelper(script) {
         this.script = script
     }
 
-    String getCurrentBranchName() {
-        return script.sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
-    }
 
     String getCommitter() {
         return script.sh(returnStdout: true, script: "git show -s --pretty=%an").trim()

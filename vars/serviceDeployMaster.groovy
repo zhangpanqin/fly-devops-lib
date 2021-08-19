@@ -9,62 +9,67 @@ import com.mflyyou.ServicePipelineHelper
  * env.BUILD_URL
  */
 def call(PipelineParam config) {
+    def currentBranchName = "${env.GIT_BRANCH}"
+    echo "currentBranchName is ${currentBranchName}"
     def gitHelper = new GitHelper(this)
     def servicePipelineHelper = new ServicePipelineHelper(this, config.getServiceName())
     pipeline {
         agent any
-        options {
-            disableConcurrentBuilds()
-//            保存构建历史
-            buildDiscarder(logRotator(daysToKeepStr: '5'))
-        }
-        environment {
-            SERVICE_NAME = "${config.getServiceName()}"
-            IMAGE_EXIST = servicePipelineHelper.isImageExisted(gitHelper.currentBranchName())
-            LAST_IMAGE_EXIST = servicePipelineHelper.isLastImageExisted(gitHelper.currentBranchName())
-        }
-        parameters {
-            booleanParam(name: 'CHECK_IMAGE_AND_BUILD', defaultValue: true, description: 'If enabled, jenkins will build only if image not exists. If disabled, jenkins will build everytime.')
-            booleanParam(name: 'DEPLOY_TO_QA', defaultValue: false, description: 'Deploy to QA.')
-            booleanParam(name: 'DEPLOY_TO_UAT', defaultValue: false, description: 'Deploy to UAT.')
-        }
+//        options {
+//            disableConcurrentBuilds()
+////            保存构建历史
+//            buildDiscarder(logRotator(daysToKeepStr: '5'))
+//        }
+//        environment {
+//            SERVICE_NAME = "${config.getServiceName()}"
+//            IMAGE_EXIST = servicePipelineHelper.isImageExisted()
+//            LAST_IMAGE_EXIST = servicePipelineHelper.isLastImageExisted(gitHelper.currentBranchName())
+//        }
+//        parameters {
+//            booleanParam(name: 'CHECK_IMAGE_AND_BUILD', defaultValue: true, description: 'If enabled, jenkins will build only if image not exists. If disabled, jenkins will build everytime.')
+//            booleanParam(name: 'DEPLOY_TO_QA', defaultValue: false, description: 'Deploy to QA.')
+//            booleanParam(name: 'DEPLOY_TO_UAT', defaultValue: false, description: 'Deploy to UAT.')
+//        }
         stages {
-            stage('Build') {
-                when {
-                    expression {
-                        return IMAGE_EXIST == "false"
-                    }
-                }
-                steps {
-                    script {
-                        servicePipelineHelper.build()
-                    }
-                }
+            stage{
+                echo "${currentBranchName}"
             }
-            stage('Delete Last Image') {
-                when {
-                    expression {
-                        return params.CHECK_IMAGE_AND_BUILD && LAST_IMAGE_EXIST == "true" && IMAGE_EXIST == "false"
-                    }
-                }
-                steps {
-                    script {
-                        servicePipelineHelper.deleteLastImageFromEcr()
-                    }
-                }
-            }
-            stage('Publish Image') {
-                when {
-                    expression {
-                        return params.CHECK_IMAGE_AND_BUILD && IMAGE_EXIST == "false"
-                    }
-                }
-                steps {
-                    script {
-                        servicePipelineHelper.publishToEcr()
-                    }
-                }
-            }
+//            stage('Build') {
+//                when {
+//                    expression {
+//                        return IMAGE_EXIST == "false"
+//                    }
+//                }
+//                steps {
+//                    script {
+//                        servicePipelineHelper.build()
+//                    }
+//                }
+//            }
+//            stage('Delete Last Image') {
+//                when {
+//                    expression {
+//                        return params.CHECK_IMAGE_AND_BUILD && LAST_IMAGE_EXIST == "true" && IMAGE_EXIST == "false"
+//                    }
+//                }
+//                steps {
+//                    script {
+//                        servicePipelineHelper.deleteLastImageFromEcr()
+//                    }
+//                }
+//            }
+//            stage('Publish Image') {
+//                when {
+//                    expression {
+//                        return params.CHECK_IMAGE_AND_BUILD && IMAGE_EXIST == "false"
+//                    }
+//                }
+//                steps {
+//                    script {
+//                        servicePipelineHelper.publishToEcr()
+//                    }
+//                }
+//            }
 //            stage('Deploy to QA') {
 //                when {
 //                    expression { return params.DEPLOY_TO_QA }
