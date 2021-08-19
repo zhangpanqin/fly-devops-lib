@@ -32,10 +32,12 @@ stage('echo') {
 ```
 
 ```shell
-withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
-  def data = sh(returnStdout: true, script: "aws ecr describe-images --region us-east-2 --repository-name=${config.getServiceName()} --image-ids=imageTag=HEAD-24b17ec")
-  # 打印字符串
-  echo "${data}"
+script {
+  withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
+    def data = sh(returnStdout: true, script: "aws ecr describe-images --region us-east-2 --repository-name=${config.getServiceName()} --image-ids=imageTag=HEAD-24b17ec")
+    # 打印字符串请求返回的字符串
+    echo "${data}"
+  }
 }
 ```
 
