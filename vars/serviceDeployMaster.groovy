@@ -36,6 +36,7 @@ def call(PipelineParam config) {
                     echo "${currentBranchName}"
                     echo gitHelper.getCurrentBranchName()
                     echo fileExists("/git-2.33.0").toString()
+                    echo "${fileExists("/git-2.33.0")}"
                     script {
                         if (fileExists("/git-2.33.0")) {
                             echo "git-2.33.0 exist"
