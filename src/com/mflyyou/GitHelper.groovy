@@ -33,7 +33,7 @@ class GitHelper implements Serializable {
     }
 
     String getGitCommitHash() {
-        return script.sh(returnStdout: true, script: "git rev-parse --short HEAD").trim()
+        return script.sh(returnStdout: true, script: "git symbolic-ref --short HEAD").trim()
     }
 
     def loadResourceFromLibrary(String path) {
