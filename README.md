@@ -1,4 +1,38 @@
-# aws
+## 脚本例子
+
+[查看插件提供的 api 还有 jenkins 自带的基础 api](https://www.jenkins.io/doc/pipeline/steps/)
+
+[sh 命令说明](https://www.jenkins.io/doc/pipeline/steps/labelled-steps/)
+
+### 基础例子
+
+```groovy
+stage('echo') {
+  steps {
+    echo "${currentBranchName}"
+    echo gitHelper.getCurrentBranchName()
+    echo fileExists("/git-2.33.0").toString()
+    echo "${fileExists("/git-2.33.0")}"
+    script {
+      if (fileExists("/git-2.33.0")) {
+        echo "git-2.33.0 exist"
+      } else {
+        echo "git-2.33.0 not exist"
+      }
+
+      if (fileExists("./settings.gradle")) {
+        echo "settings.gradle exist"
+      } else {
+        echo "settings.gradle not exist"
+      }
+    }
+  }
+}
+```
+
+
+
+### aws
 
 ```groovy
 withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
@@ -29,17 +63,6 @@ boolean isImageExisted() {
 echo "${env}"
 echo "${SERVICE_NAME}"
 echo SERVICE_NAME
-```
-
-
-
-### jenkins
-
-#### environment
-
-- env.BRANCH_NAME，仅在多分支时有效，只有一个 master 时，为 null
-
-```groovy
 ```
 
 

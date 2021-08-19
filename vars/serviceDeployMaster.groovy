@@ -13,6 +13,7 @@ def call(PipelineParam config) {
     echo "currentBranchName is ${currentBranchName}"
     def gitHelper = new GitHelper(this)
     def servicePipelineHelper = new ServicePipelineHelper(this, config.getServiceName())
+    def serviceName = config.branchName
     pipeline {
         agent any
 //        options {
@@ -37,6 +38,11 @@ def call(PipelineParam config) {
                     echo gitHelper.getCurrentBranchName()
                     echo fileExists("/git-2.33.0").toString()
                     echo "${fileExists("/git-2.33.0")}"
+                    withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
+                        def images = ecrListImages(repositoryName: "${serviceName}", filter: "imageTag=HEAD-24b17ec")
+                    }
+                    def data = sh(returnStdout: true, script: "aws ecr describe-images --region us-east-2 --repository-name=${serviceName} --image-ids=imageTag=HEAD-24b17ec")
+                    echo "${data}"
                     script {
                         if (fileExists("/git-2.33.0")) {
                             echo "git-2.33.0 exist"
