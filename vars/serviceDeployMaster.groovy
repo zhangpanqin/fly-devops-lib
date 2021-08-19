@@ -32,7 +32,9 @@ def call(PipelineParam config) {
 //        }
         stages {
             stage('echo') {
-                echo "${currentBranchName}"
+                steps {
+                    echo "${currentBranchName}"
+                }
             }
 //            stage('Build') {
 //                when {
