@@ -5,13 +5,17 @@ class PipelineRetry {
     def int maxAttempts
     def script
 
-    PipelineRetry(script, int maxAttempts, int timeoutSeconds) {
+    private PipelineRetry(script, int maxAttempts, int timeoutSeconds) {
         this.script = script
         this.timeoutSeconds = timeoutSeconds + 15
         this.maxAttempts = maxAttempts
     }
 
-    public void retryOrAbort(final Closure<?> action, final int count = 0) {
+    public static void retryOrAbort(script, int maxAttempts, int timeoutSeconds, final Closure<?> action, final int count = 0) {
+        new PipelineRetry(script, maxAttempts, timeoutSeconds).retryOrAbort(action, count);
+    }
+
+    void retryOrAbort(final Closure<?> action, final int count = 0) {
         script.echo "Attempting action; attempt count is: ${count}"
         try {
             action.call();

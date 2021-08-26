@@ -35,7 +35,7 @@ def call(PipelineParam config) {
                     echo "LAST IMAGE EXIST ${env.LAST_IMAGE_EXIST}"
                     echo JENKINS_ROOT_URL
                     script {
-                        new PipelineRetry(this, 3, 20).retryOrAbort({
+                        PipelineRetry.retryOrAbort(this, 3, 20, {
                             echo "执行了"
                             throw new RuntimeException("故意抛出异常")
                         })
