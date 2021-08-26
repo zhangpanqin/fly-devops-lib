@@ -75,7 +75,18 @@ class ServicePipelineHelper implements Serializable {
         }
     }
 
-    def deployTo(Environments environment) {
+    def deployTo(Environments environment, String timeout = "5m0s") {
         script.echo "Deploy to ${environment}..."
+
+        script.withAWS(credentials: 'aws-iam-fly-devops', region: 'us-east-2') {
+
+        }
+        def helmScript = """aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 626246113265.dkr.ecr.us-east-2.amazonaws.com \
+             helm upgrade ${serviceName}-${environment}  \
+             --install --wait --namespace fly-devops \
+             --timeout ${timeout} \
+             --set nameOverride=${serviceName}
+             --set image.tag=${gitHelper.getImageTag(branchName)} """
+//             --set image.credentials.password=$(aws ecr get-login-password) ./
     }
 }

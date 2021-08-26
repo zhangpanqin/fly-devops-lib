@@ -1,3 +1,4 @@
+import com.mflyyou.Environments
 import com.mflyyou.GitHelper
 import com.mflyyou.PipelineParam
 import com.mflyyou.ServicePipelineHelper
@@ -34,42 +35,54 @@ def call(PipelineParam config) {
                     echo "LAST IMAGE EXIST ${env.LAST_IMAGE_EXIST}"
                 }
             }
-            stage('Build') {
-                when {
-                    expression {
-                        return IMAGE_EXIST == "false"
-                    }
-                }
-                steps {
-                    script {
-                        servicePipelineHelper.build()
-                    }
-                }
-            }
-            stage('Delete Last Image') {
-                when {
-                    expression {
-                        return params.CHECK_IMAGE_AND_BUILD && LAST_IMAGE_EXIST == "true" && IMAGE_EXIST == "false"
-                    }
-                }
-                steps {
-                    script {
-                        servicePipelineHelper.deleteLastImageFromEcr()
-                    }
-                }
-            }
-            stage('Publish Image') {
-                when {
-                    expression {
-                        return params.CHECK_IMAGE_AND_BUILD && IMAGE_EXIST == "false"
-                    }
-                }
-                steps {
-                    script {
-                        servicePipelineHelper.publishToEcr()
-                    }
-                }
-            }
+//            stage('Build') {
+//                when {
+//                    expression {
+//                        return IMAGE_EXIST == "false"
+//                    }
+//                }
+//                steps {
+//                    script {
+//                        servicePipelineHelper.build()
+//                    }
+//                }
+//            }
+//            stage('Delete Last Image') {
+//                when {
+//                    expression {
+//                        return params.CHECK_IMAGE_AND_BUILD && LAST_IMAGE_EXIST == "true" && IMAGE_EXIST == "false"
+//                    }
+//                }
+//                steps {
+//                    script {
+//                        servicePipelineHelper.deleteLastImageFromEcr()
+//                    }
+//                }
+//            }
+//            stage('Publish Image') {
+//                when {
+//                    expression {
+//                        return params.CHECK_IMAGE_AND_BUILD && IMAGE_EXIST == "false"
+//                    }
+//                }
+//                steps {
+//                    script {
+//                        servicePipelineHelper.publishToEcr()
+//                    }
+//                }
+//            }
+//            stage('Deploy Image') {
+//                when {
+//                    expression {
+//                        return params.CHECK_IMAGE_AND_BUILD && IMAGE_EXIST == "false"
+//                    }
+//                }
+//                steps {
+//                    script {
+//                        servicePipelineHelper.deployTo(Environments.dev)
+//                    }
+//                }
+//            }
         }
         post {
             fixed {
