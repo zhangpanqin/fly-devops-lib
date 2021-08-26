@@ -1,6 +1,6 @@
-import com.mflyyou.Environments
 import com.mflyyou.GitHelper
 import com.mflyyou.PipelineParam
+import com.mflyyou.PipelineRetry
 import com.mflyyou.ServicePipelineHelper
 
 /**
@@ -34,6 +34,12 @@ def call(PipelineParam config) {
                     echo "IMAGE EXIST ${env.IMAGE_EXIST}"
                     echo "LAST IMAGE EXIST ${env.LAST_IMAGE_EXIST}"
                     echo JENKINS_ROOT_URL
+                    script {
+                        new PipelineRetry(this, 3, 20).retryOrAbort({
+                            echo "执行了"
+                            throw new RuntimeException("故意抛出异常")
+                        })
+                    }
                 }
             }
 //            stage('Build') {
