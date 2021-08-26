@@ -33,6 +33,7 @@ def call(PipelineParam config) {
                 steps {
                     echo "IMAGE EXIST ${env.IMAGE_EXIST}"
                     echo "LAST IMAGE EXIST ${env.LAST_IMAGE_EXIST}"
+                    echo JENKINS_ROOT_URL
                 }
             }
 //            stage('Build') {
